@@ -6,10 +6,10 @@ class jOrmFilterTest extends PHPUnit_Framework_TestCase {
     
     public function testFilterClone() {
         
-        $filter1 = jOrmFilter::create()->add('field1__eq', 'one')->add('field2__eq', 'two');
+        $filter1 = jOrmFilter::create()->add('field1', 'one')->add('field2', 'two');
         
         $filter2 = clone $filter1;
-        $filter2->add('field3__le', 'three');
+        $filter2->add('field3', 'three', 'le');
         
         $this->assertNotEquals($filter1, $filter2);
     }

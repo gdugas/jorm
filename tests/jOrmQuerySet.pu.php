@@ -12,7 +12,7 @@ class jOrmQuerSetTest extends PHPUnit_Framework_TestCase {
         $q->all();
         $this->assertEquals($f, $q->getFilter());
         
-        $q->filter(jOrmFilter::create()->add('field1__eq', 'one'));
+        $q->filter(jOrmFilter::create()->add('field1', 'one'));
         $this->assertNotEquals($f, $q->getFilter());
     }
 
@@ -21,7 +21,7 @@ class jOrmQuerSetTest extends PHPUnit_Framework_TestCase {
         $q1->all();
         
         $q2 = clone $q1;
-        $q2->filter(jOrmFilter::create()->add('field1__eq', 'one'));
+        $q2->filter(jOrmFilter::create()->add('field1', 'one'));
         $this->assertNotEquals($q1, $q2);
     }
 }

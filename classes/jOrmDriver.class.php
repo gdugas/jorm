@@ -9,8 +9,8 @@ abstract class jOrmDriver {
      * format: field lookup => db operator
      * interpreted with sprintf
      */
-    protected $operators = array('exact'=> Null,
-                                 'iexact'=> Null,
+    protected $operators = array('eq'=> Null,
+                                 'ieq'=> Null,
                                  'contains'=> Null,
                                  'icontains'=> Null,
                                  'regex'=> Null,
@@ -47,13 +47,10 @@ abstract class jOrmDriver {
         
         // Build clause
         $clause = array();
-        foreach ($filter->getFields() as $field) {
+        foreach ($filter->getArrayClauses() as $field => $conditions) {
             $field = explode('__', $field);
-            if (! isset($this->operators[count($field) - 1])) {
-                $op= 'exact';
-            } else {
-                $op = array_pop($field);
-            }
+            $value = $conditions[0];
+            $op = $conditions[1];
             
             // TODO: complete (foreignkey, etc ...)
         }

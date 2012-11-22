@@ -3,7 +3,8 @@
 class jOrmFilter {
     
     protected $_logic = Null;
-    protected $_fields = array();
+    protected $_clauses = array();
+    protected $_joins = array();
     protected $_subFilters = array();
     
     function __clone() {
@@ -21,11 +22,15 @@ class jOrmFilter {
         $this->_logic = $logic;
     }
     
-    function add($filtering, $value=NULL) {
+    function add($filtering, $value=NULL, $op = 'eq') {
         if ($filtering instanceof jOrmFilter) {
             $this->_subFilters[] = $filtering;
         } else {
-            $this->_fields[$filtering] = $value;
+            if (count(explode('__', $filtering)) > 1) {
+                $this->_joins[$filtering] = array($value, $op);
+            } else {
+                $this->_clauses[$filtering] = array($value, $op);
+            }
         }
         return $this;
     }
@@ -34,11 +39,14 @@ class jOrmFilter {
         return new jOrmFilter($logic);
     }
     
-    function getFields() {
-        return $this->_fields;
+    function getArrayClauses() {
+        return $this->_clauses;
     }
     function getLogic() {
         return $this->_logic;
+    }
+    function getJoins() {
+        return $this->_joins;
     }
     function getSubFilters() {
         return $this->_subFilters;
